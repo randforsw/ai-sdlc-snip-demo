@@ -166,3 +166,45 @@ git push origin main
 | `backend` | Bun server | `server.js` |
 | `frontend` | Angular 19 SPA | `angular.json` |
 | `cli` | Node.js CLI | `cli.js` |
+| `bundle` | **Generated output** — do not hand-edit | `server.js`, `cli.js`, `public/`, `Dockerfile` |
+
+---
+
+## Bundle branch (generated deployable)
+
+The `bundle` submodule folder contains a self-contained, Docker/Railway-ready
+package that combines all three layers: the Bun server, the built Angular SPA
+(served as static files), and the CLI.
+
+**Regenerate after any source change:**
+
+```sh
+# Assemble locally (no push)
+node scripts/build-bundle.mjs
+
+# Assemble + push bundle branch + main
+node scripts/build-bundle.mjs --push
+```
+
+The script (`scripts/build-bundle.mjs`) is a zero-dependency Node.js ESM module.
+It is safe to re-run — if nothing has changed it reports "Nothing to commit" and exits cleanly.
+
+**What gets written to `bundle/`:**
+
+| File | Source |
+|---|---|
+| `server.js` | copied verbatim from `backend/` |
+| `cli.js` | copied verbatim from `cli/` |
+| `public/` | Angular production build (`ng build`) |
+| `.env` | `PUBLIC_DIR=./public` (Bun auto-loads; enables static file serving) |
+| `package.json` | `"start": "bun server.js"`, no `"type"` field |
+| `Dockerfile` | `FROM oven/bun:1-alpine`, `EXPOSE 3000`, `CMD bun server.js` |
+| `.dockerignore` | excludes `node_modules`, `*.md` |
+| `railway.json` | selects the Dockerfile builder |
+
+**Deploy to Railway:**
+```sh
+# From the bundle/ submodule folder:
+railway up
+# or connect the bundle branch directly in the Railway dashboard.
+```
