@@ -1,1 +1,50 @@
-/* You can add global styles to this file, and also import other style files */
+/* ─── Snip global styles ─────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Surfaces */
+  --bg:          #09090d;
+  --surface:     #111118;
+  --surface-2:   #1a1a24;
+
+  /* Borders */
+  --border:      rgba(255, 255, 255, 0.07);
+  --border-mid:  rgba(255, 255, 255, 0.12);
+
+  /* Text */
+  --text:        #f0f0f5;
+  --muted:       #6b6b80;
+  --muted-2:     #9898a8;
+
+  /* Accent gradient — coral → hot-pink → soft-violet */
+  --accent-a:    #ff6b6b;
+  --accent-b:    #ff4d8d;
+  --accent-c:    #c84dff;
+  --gradient:    linear-gradient(135deg, var(--accent-a) 0%, var(--accent-b) 50%, var(--accent-c) 100%);
+
+  /* Radii */
+  --radius-pill: 9999px;
+  --radius-card: 18px;
+  --radius-sm:   10px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 0 0 var(--border), 0 4px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 60px rgba(255, 77, 141, 0.08);
+  --ring-focus:  0 0 0 3px rgba(255, 77, 141, 0.2);
+
+  /* Typography */
+  --font:      'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

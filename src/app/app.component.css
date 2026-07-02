@@ -1,66 +1,213 @@
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body { font-family: system-ui, sans-serif; background: #f5f5f5; color: #222; }
-
+/* --- Layout ---------------------------------------------------------------- */
 main {
-  max-width: 720px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 1.25rem 5rem;
 }
 
-h1 { font-size: 2rem; margin-bottom: 1.5rem; color: #0070f3; }
-
-section {
-  background: #fff;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+/* --- Hero ------------------------------------------------------------------ */
+.hero {
+  position: relative;
+  text-align: center;
+  padding: 5rem 1rem 3rem;
+  background: radial-gradient(
+    ellipse 80% 55% at 50% -5%,
+    rgba(255, 77, 141, 0.18) 0%,
+    transparent 65%
+  );
 }
 
-h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.75rem;
+}
 
-form { display: flex; gap: .5rem; }
+.hero-sub {
+  color: var(--muted-2);
+  font-size: 1.0625rem;
+  font-weight: 400;
+}
 
-.url-input {
+/* --- Pill form ------------------------------------------------------------- */
+.form-wrap {
+  padding-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.pill-form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 640px;
+  background: var(--surface);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-pill);
+  padding: 0.3rem 0.3rem 0.3rem 1.5rem;
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.pill-form:focus-within {
+  border-color: var(--accent-b);
+  box-shadow: var(--shadow-card), var(--ring-focus);
+}
+
+.pill-input {
   flex: 1;
-  padding: .5rem .75rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: var(--font);
   font-size: 1rem;
+  padding: 0.65rem 0.5rem 0.65rem 0;
+  min-width: 0;
 }
-.url-input:focus { outline: 2px solid #0070f3; border-color: transparent; }
 
-button {
-  padding: .5rem 1.25rem;
-  background: #0070f3;
+.pill-input::placeholder { color: var(--muted); }
+
+.pill-btn {
+  flex-shrink: 0;
+  background: var(--gradient);
   color: #fff;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: var(--radius-pill);
+  padding: 0.625rem 1.375rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: var(--font);
   cursor: pointer;
+  transition: opacity 0.15s, transform 0.15s;
+  white-space: nowrap;
 }
-button:disabled { opacity: .6; cursor: not-allowed; }
-button:hover:not(:disabled) { background: #0060df; }
 
-.error { margin-top: .75rem; color: #d32f2f; font-size: .9rem; }
+.pill-btn:hover:not(:disabled) { opacity: 0.85; transform: translateY(-1px); }
+.pill-btn:active:not(:disabled) { transform: translateY(0); }
+.pill-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-.result {
-  margin-top: .75rem;
-  padding: .6rem .9rem;
-  background: #e6f4ea;
-  border-radius: 6px;
-  font-size: .95rem;
+/* --- Notices --------------------------------------------------------------- */
+.notice {
+  width: 100%;
+  max-width: 640px;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1.125rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
-.result a { color: #2e7d32; font-weight: 600; }
 
-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
-th, td { text-align: left; padding: .5rem .75rem; border-bottom: 1px solid #eee; }
-th { font-weight: 600; color: #555; }
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: #fafafa; }
-td a { color: #0070f3; text-decoration: none; font-weight: 600; }
-td a:hover { text-decoration: underline; }
+.notice--error {
+  background: rgba(255, 60, 60, 0.1);
+  border: 1px solid rgba(255, 60, 60, 0.25);
+  color: #ff8888;
+}
 
-.orig-url { color: #555; word-break: break-all; }
-.empty { color: #999; font-size: .9rem; }
+.notice--success {
+  background: rgba(80, 200, 120, 0.08);
+  border: 1px solid rgba(80, 200, 120, 0.22);
+  color: #86efac;
+}
+
+.notice--success a {
+  color: inherit;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+}
+
+.notice--success a:hover { text-decoration: none; border-bottom-style: solid; }
+
+/* --- Links card ------------------------------------------------------------ */
+.links-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.card-header h2 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+thead th {
+  text-align: left;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+tbody td {
+  padding: 0.875rem 1.5rem;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+tbody tr { transition: background 0.1s; }
+tbody tr:hover td { background: rgba(255, 255, 255, 0.025); }
+
+td.code-cell a {
+  color: var(--accent-b);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+td.code-cell a:hover { text-decoration: underline; }
+
+.orig-url {
+  color: var(--muted-2);
+  word-break: break-all;
+  font-size: 0.8125rem;
+}
+
+.hits-cell {
+  color: var(--muted-2);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8125rem;
+  text-align: right;
+}

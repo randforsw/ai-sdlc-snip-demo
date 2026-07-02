@@ -1,35 +1,40 @@
 <main>
-  <h1>Snip</h1>
+  <div class="hero">
+    <h1>Snip</h1>
+    <p class="hero-sub">Paste a URL. Get a short link.</p>
+  </div>
 
-  <section class="shorten">
-    <h2>Shorten a URL</h2>
-    <form (submit)="onSubmit($event)">
+  <div class="form-wrap">
+    <form class="pill-form" (submit)="onSubmit($event)">
       <input
         type="url"
-        placeholder="https://example.com"
+        placeholder="https://paste-your-long-url-here.com"
         [value]="urlInput()"
         (input)="onInput($event)"
         [disabled]="submitting()"
-        class="url-input"
+        class="pill-input"
       />
-      <button type="submit" [disabled]="submitting()">
+      <button type="submit" class="pill-btn" [disabled]="submitting()">
         {{ submitting() ? 'Shortening...' : 'Shorten' }}
       </button>
     </form>
+
     @if (error()) {
-      <p class="error">{{ error() }}</p>
+      <p class="notice notice--error">{{ error() }}</p>
     }
     @if (newLink(); as link) {
-      <div class="result">
-        Short link: <a [href]="link.shortUrl" target="_blank" rel="noopener">{{ link.shortUrl }}</a>
+      <div class="notice notice--success">
+        Short link:&nbsp;<a [href]="link.shortUrl" target="_blank" rel="noopener">{{ link.shortUrl }}</a>
       </div>
     }
-  </section>
+  </div>
 
-  <section class="links">
-    <h2>All links</h2>
+  <section class="links-card">
+    <div class="card-header">
+      <h2>Links</h2>
+    </div>
     @if (links().length === 0) {
-      <p class="empty">No links yet.</p>
+      <p class="empty">No links yet — shorten your first URL above.</p>
     } @else {
       <table>
         <thead>
@@ -42,9 +47,9 @@
         <tbody>
           @for (link of links(); track link.code) {
             <tr>
-              <td><a [href]="link.shortUrl" target="_blank" rel="noopener">{{ link.code }}</a></td>
+              <td class="code-cell"><a [href]="link.shortUrl" target="_blank" rel="noopener">{{ link.code }}</a></td>
               <td class="orig-url">{{ link.url }}</td>
-              <td>{{ link.hits }}</td>
+              <td class="hits-cell">{{ link.hits }}</td>
             </tr>
           }
         </tbody>
