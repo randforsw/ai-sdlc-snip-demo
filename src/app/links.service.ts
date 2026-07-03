@@ -10,7 +10,9 @@ export interface Link {
   createdAt: string;
 }
 
-const API = 'http://localhost:3000';
+// Empty string = same origin; works locally (ng serve proxies to :3000 aren't
+// needed because the Bun server also serves the built frontend) and on Railway.
+const API = '';
 
 @Injectable({ providedIn: 'root' })
 export class LinksService {
